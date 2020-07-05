@@ -40,10 +40,10 @@ export class ProfessionController {
     }
 
     @MessagePattern({ cmd: 'updateProfession' })
-    async updateProfession(professionId: string, professionDto: ProfessionDto){
-        const profession = await this.professionService.findOneProfession(professionId);
+    async updateProfession(data:any[]){
+        const profession = await this.professionService.findOneProfession(data[0]);
         if(profession)
-            return await this.professionService.updateProfession(professionId,professionDto);
+            return await this.professionService.updateProfession(data[0],data[1]);
         throw new HttpException('Profession not modified',HttpStatus.NOT_FOUND);
     }
 

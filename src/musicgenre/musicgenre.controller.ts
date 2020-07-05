@@ -40,10 +40,10 @@ export class MusicgenreController {
     }
 
     @MessagePattern({ cmd: 'updateMusicGenre' })
-    async updateMusicGenre(mgenreId: string, musicgenreDto: MusicGenreDto){
-        const mgenre = await this.musicgenreService.findOneMusicGenre(mgenreId);
+    async updateMusicGenre(data:any[]){
+        const mgenre = await this.musicgenreService.findOneMusicGenre(data[0]);
         if(mgenre)
-            return await this.musicgenreService.updateMusicGenre(mgenreId,musicgenreDto);
+            return await this.musicgenreService.updateMusicGenre(data[0],data[1]);
         throw new HttpException('Music Genre not modified',HttpStatus.NOT_FOUND);
     }
 

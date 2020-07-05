@@ -10,7 +10,9 @@ import { EditionModule } from './edition/edition.module';
 import { BookcategoryModule } from './bookcategory/bookcategory.module';
 import { BookModule } from './book/book.module';
 import { BandModule } from './band/band.module';
-
+import { MovieModule } from './movie/movie.module';
+import { PeintureModule } from './peinture/peinture.module';
+import { ScultureModule } from './sculture/sculture.module';
 
 @Module({
   imports: [ArtistModule,
@@ -23,7 +25,10 @@ import { BandModule } from './band/band.module';
     EditionModule,
     BookcategoryModule,
     BookModule,
-    BandModule
+    BandModule,
+    MovieModule,
+    PeintureModule,
+    ScultureModule
   ],
   controllers: [],
   providers: [],

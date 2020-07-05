@@ -13,7 +13,7 @@ export class SongController {
     ){}
 
     @MessagePattern({cmd :'getSong'})    
-    findAllArtist(data: any[]){
+    findAllSong(data: any[]){
         return this.songService.findAllSong(data[0], data[1]);
     }
 
@@ -22,7 +22,7 @@ export class SongController {
         description: 'The record has been successfully created.',
         type: SongEntity,
       })
-    async createArtiste(songDto: SongDto){
+    async createSong(songDto: SongDto){
         const song = await this.songService.createSong(songDto);
         if(song)
             return song;
@@ -39,11 +39,11 @@ export class SongController {
     }
 
     @MessagePattern({cmd :'updateSong'})
-    async updateSong(songId: string, songDto: SongDto){
-        const song = await this.songService.findOneSong(songId);
+    async updateSong(data:any[]){
+        const song = await this.songService.findOneSong(data[0]);
         if(song)
-            return await this.songService.updateSong(songId,songDto);
-        throw new HttpException('Profession not modified',HttpStatus.NOT_FOUND);
+            return await this.songService.updateSong(data[0],data[1]);
+        throw new HttpException('Song not modified',HttpStatus.NOT_FOUND);
     }
 
     @MessagePattern({cmd :'deleteSong'})

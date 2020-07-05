@@ -9,10 +9,19 @@ import { SongEntity } from '../entities/song.entity';
 import { BookEntity } from '../entities/book.entity';
 import { BandEntity } from '../entities/band.entity';
 import { AlbumEntity } from '../entities/album.entity';
+import { MovieEntity } from '../entities/movie.entity';
 
 @Module({
   imports:[
-    TypeOrmModule.forFeature([ArtisteEntity,ProfessionEntity,SocialEntity,SongEntity,BookEntity,BandEntity,AlbumEntity]),
+    TypeOrmModule.forFeature(
+      [ArtisteEntity,
+        ProfessionEntity,
+        SocialEntity,
+        SongEntity,
+        BookEntity,
+        BandEntity,
+        AlbumEntity,        
+        MovieEntity]),
   ],
   controllers: [ArtistController],
   providers: [ArtistService]

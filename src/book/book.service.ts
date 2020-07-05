@@ -19,29 +19,29 @@ export class BookService {
     @InjectRepository(EditionEntity)
     private readonly editionRepository: Repository<EditionEntity>
 
-     findAllBook(limit:number, offset: number){
+    findAllBook(limit:number, offset: number){
         return this.bookRepository.find({skip: offset,
-            take: limit, relations:['artisteBooks','editionBooks']});
+            take: limit, relations:['artisteBooks','editionBooks','category']});
     }
 
     async findOneBook(bookId: string){
-        const book = await this.bookRepository.findOne(+bookId,{relations:['artisteBooks','editionBooks']});
+        const book = await this.bookRepository.findOne(+bookId,{relations:['artisteBooks','editionBooks','category']});
         if(!book)
             return null;
         return book;
     }
 
     async updateBook(bookId: string, bookDto: BookDto){
-        let book = await this.bookRepository.findOne(+bookId,{relations:['artisteBooks','editionBooks']});
+        let book = await this.bookRepository.findOne(+bookId,{relations:['artisteBooks','editionBooks','category']});
         if(!book)
             return null;
         await this.bookRepository.update(bookId,bookDto);
-        book = await this.bookRepository.findOne(+bookId);
+        book = await this.bookRepository.findOne(+bookId,{relations:['artisteBooks','editionBooks','category']});
         return {updatedId: bookId, Book: book};
     }
 
     async removeBook(bookId: string){
-        const book = await this.bookRepository.findOne(+bookId);
+        const book = await this.bookRepository.findOne(+bookId,{relations:['artisteBooks','editionBooks','category']});
         if(!book)
             return null;
         await this.bookRepository.delete(+bookId);
@@ -54,7 +54,7 @@ export class BookService {
     }
 
     async CategoryBook(bookId: string, bcategoryId: string){
-        const book = await this.bookRepository.findOne(+bookId, {relations:['artisteBooks','editionBooks']});        
+        const book = await this.bookRepository.findOne(+bookId, {relations:['artisteBooks','editionBooks','category']});        
         if(!book)
             return null;
         const bcategory = await this.bcategoryRepository.findOne(+bcategoryId);
@@ -62,11 +62,23 @@ export class BookService {
             return null;
         book.category=bcategory;    
         await this.bookRepository.save(book);    
-        return this.bookRepository.findOne(+bookId, {relations:['artisteBooks','editionBooks']});
+        return this.bookRepository.findOne(+bookId, {relations:['artisteBooks','editionBooks','category']});
+    }
+
+    async DeleteCategoryBook(bookId: string, bcategoryId: string){
+        const book = await this.bookRepository.findOne(+bookId, {relations:['artisteBooks','editionBooks','category']});       
+        if(!book)
+            return null;        
+        if(!book.category)
+            return null;
+            if(book.category.bookCategoryId === +bcategoryId)
+                book.category=null;
+            await this.bookRepository.save(book);    
+            return this.bookRepository.findOne(+bookId, {relations:['artisteBooks','editionBooks','category']});
     }
 
     async EditionBook(bookId: string, editionId: string){
-        const book = await this.bookRepository.findOne(+bookId, {relations:['artisteBooks','editionBooks']});        
+        const book = await this.bookRepository.findOne(+bookId, {relations:['artisteBooks','editionBooks','category']});        
         if(!book)
             return null;
         const edition = await this.editionRepository.findOne(+editionId);
@@ -74,6 +86,20 @@ export class BookService {
             return null;
         book.editionBooks.push(edition);    
         await this.bookRepository.save(book);    
-        return this.bookRepository.findOne(+bookId, {relations:['artisteBooks','editionBooks']});
+        return this.bookRepository.findOne(+bookId, {relations:['artisteBooks','editionBooks','category']});
+    }
+
+    async DeleteEditionBook(bookId: string, editionId: string){
+        const book = await this.bookRepository.findOne(+bookId, {relations:['artisteBooks','editionBooks','category']});       
+        if(!book)
+            return null;        
+        if(!book.editionBooks)
+            return null;
+            for(let i=0;i< book.editionBooks.length;i++){
+                if(book.editionBooks[i].editionId === +editionId)
+                book.editionBooks.splice(i,1);
+            }
+            await this.bookRepository.save(book);    
+            return this.bookRepository.findOne(+bookId, {relations:['artisteBooks','editionBooks','category']});
     }
 }

@@ -15,24 +15,24 @@ export class SocialService {
             {
                 skip: offset,
                 take: limit,
-                relations:['artisteSocials']
+                relations:['artisteSocials','bandSocials']
             });
     }
 
     async findOneSocial(socialId: string){
-        const social = await this.socialRepository.findOne(+socialId,{relations:['artisteSocials']});
+        const social = await this.socialRepository.findOne(+socialId,{relations:['artisteSocials','bandSocials']});
         if(!social)
             return null;
         return social;
     }
 
     async updateSocial(socialId: string, socialDto: SocialDto){
-        let social = await this.socialRepository.findOne(+socialId,{relations:['artisteSocials']});
+        let social = await this.socialRepository.findOne(+socialId,{relations:['artisteSocials','bandSocials']});
         if(!social)
             return null;
         await this.socialRepository.update(socialId,socialDto);
-        social = await this.socialRepository.findOne(+socialId,{relations:['artisteSocials']});
-        return {updatedId: socialId, Artiste: social};
+        social = await this.socialRepository.findOne(+socialId,{relations:['artisteSocials','bandSocials']});
+        return {updatedId: socialId, Social: social};
     }
 
     async removeSocial(socialId: string){
@@ -40,7 +40,7 @@ export class SocialService {
         if(!social)
             return null;
         await this.socialRepository.delete(+socialId);
-        return {deletedId: socialId, nbArtiste: await this.socialRepository.findAndCount.length};
+        return {deletedId: socialId, nbSocials: await this.socialRepository.findAndCount.length};
     }
 
     async createSocial(socialDto: SocialDto){       

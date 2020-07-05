@@ -40,10 +40,10 @@ export class AlbumController {
     }
 
     @MessagePattern({ cmd: 'updateAlbum' })
-    async updateAlbum(albumId: string, albumDto: AlbumDto){
-        const album = await this.albumService.findOneAlbum(albumId);
+    async updateAlbum(data:any[]){
+        const album = await this.albumService.findOneAlbum(data[0]);
         if(album)
-            return await this.albumService.updateAlbum(albumId,albumDto);
+            return await this.albumService.updateAlbum(data[0],data[1]);
         throw new HttpException('Album not modified',HttpStatus.NOT_FOUND);
     }
 
@@ -55,12 +55,44 @@ export class AlbumController {
         throw new HttpException('Album not modified',HttpStatus.NOT_FOUND);
     }
 
+    @MessagePattern({ cmd: 'deleteAlbumSong' })
+    async DeleteSongAlbum(data: any[]){
+        const artist = await this.albumService.DeleteSongAlbum(data[0], data[1]);        
+        if(artist)
+            return artist;
+        throw new HttpException('Artist Song not modified',HttpStatus.NOT_FOUND);
+    }
+
     @MessagePattern({ cmd: 'updateAlbumGenre' })
     async GenreAlbum(data: any[]){
         const album = await this.albumService.GenreAlbum(data[0], data[1]);        
         if(album)
             return album
         throw new HttpException('Album not modified',HttpStatus.NOT_FOUND);
+    }
+
+    @MessagePattern({ cmd: 'deleteAlbumGenre' })
+    async DeleteGenreAlbum(data: any[]){
+        const artist = await this.albumService.DeleteGenreAlbum(data[0], data[1]);        
+        if(artist)
+            return artist;
+        throw new HttpException('Artist Music Genre not modified',HttpStatus.NOT_FOUND);
+    }
+
+    @MessagePattern({ cmd: 'updateAlbumBand' })
+    async BandAlbum(data: any[]){
+        const album = await this.albumService.BandAlbum(data[0], data[1]);        
+        if(album)
+            return album
+        throw new HttpException('Album not modified',HttpStatus.NOT_FOUND);
+    }
+
+    @MessagePattern({ cmd: 'deleteAlbumBand' })
+    async DeleteBandAlbum(data: any[]){
+        const artist = await this.albumService.DeleteBandAlbum(data[0], data[1]);        
+        if(artist)
+            return artist;
+        throw new HttpException('Artist Band not modified',HttpStatus.NOT_FOUND);
     }
 
     @MessagePattern({ cmd: 'deleteAlbum' })

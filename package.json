@@ -28,6 +28,7 @@
     "@nestjs/swagger": "^4.5.3",
     "@nestjs/typeorm": "^7.0.0",
     "mysql": "^2.18.1",
+    "nestjs-admin": "^0.4.0",
     "redis": "^3.0.2",
     "redis-server": "^1.2.2",
     "reflect-metadata": "^0.1.13",

@@ -26,6 +26,10 @@ export class AlbumEntity{
     @ApiProperty()
     albumUrl: string;
 
+    @Column({name:'album_cover',length:100})
+    @ApiProperty()
+    albumCover: string;
+
     @CreateDateColumn({name:'create_date'})
     @ApiProperty()
     createDate: Date;

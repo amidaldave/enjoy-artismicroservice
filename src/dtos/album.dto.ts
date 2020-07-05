@@ -10,4 +10,7 @@ export class AlbumDto{
     
     @ApiProperty()
     albumUrl: string;
+
+    @ApiProperty()
+    albumCover: string;
 }

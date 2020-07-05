@@ -39,10 +39,10 @@ export class BandController {
     }
 
     @MessagePattern({ cmd: 'updateBand' })
-    async updateBand(bandId: string, bandDto: BandDto){
-        const band = await this.bandService.findOneBand(bandId);
+    async updateBand(data:any[]){
+        const band = await this.bandService.findOneBand(data[0]);
         if(band)
-            return await this.bandService.updateBand(bandId,bandDto);
+            return await this.bandService.updateBand(data[0],data[1]);
         throw new HttpException('Band not modified',HttpStatus.NOT_FOUND);
     }
 
@@ -52,5 +52,21 @@ export class BandController {
         if(band)
             return await this.bandService.removeBand(bandId);
          throw new HttpException('Band not modified',HttpStatus.NOT_FOUND);
+    }
+
+    @MessagePattern({ cmd: 'updateBandSocial' })
+    async BandAlbum(data: any[]){
+        const band = await this.bandService.SocialBand(data[0], data[1]);        
+        if(band)
+            return band;
+        throw new HttpException('Band not modified',HttpStatus.NOT_FOUND);
+    }
+
+    @MessagePattern({ cmd: 'deleteBandSocial' })
+    async DeleteSocialBand(data: any[]){
+        const band = await this.bandService.DeleteSocialBand(data[0], data[1]);        
+        if(band)
+            return band;
+        throw new HttpException('Band not modified',HttpStatus.NOT_FOUND);
     }
 }

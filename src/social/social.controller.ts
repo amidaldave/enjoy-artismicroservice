@@ -1,4 +1,4 @@
-import { Controller, Body, HttpException, HttpStatus, Param, Logger } from '@nestjs/common';
+import { Controller, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { SocialService } from './social.service';
 import { SocialDto } from '../dtos/social.dto';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
@@ -40,15 +40,15 @@ export class SocialController {
     }
     
     @MessagePattern({ cmd: 'updateSocial' })
-    async updateSocial(@Param('socialId') socialId: string, @Body() socialDto: SocialDto){
-        const social = await this.socialService.findOneSocial(socialId);
+    async updateSocial(data:any[]){
+        const social = await this.socialService.findOneSocial(data[0]);
         if(social)
-            return await this.socialService.updateSocial(socialId,socialDto);
+            return await this.socialService.updateSocial(data[0],data[1]);
         throw new HttpException('Social not modified',HttpStatus.NOT_FOUND);
     }
     
     @MessagePattern({ cmd: 'deleteSocial' })
-    async removeSocial(@Param('socialId') socialId: string){
+    async removeSocial(socialId: string){
         const social = await this.socialService.findOneSocial(socialId);
         if(social)
             return await this.socialService.removeSocial(socialId);

@@ -7,8 +7,11 @@ import { EditionDto } from '../dtos/edition.dto';
 @Injectable()
 export class EditionService {
 
-    @InjectRepository(EditionEntity)
-    private readonly editionRepository: Repository<EditionEntity>
+    constructor(
+        @InjectRepository(EditionEntity)
+        private readonly editionRepository: Repository<EditionEntity>,
+    ){}
+    
 
      findAllEdition(limit:number, offset: number){
         return this.editionRepository.find({skip: offset,
@@ -28,7 +31,7 @@ export class EditionService {
             return null;
         await this.editionRepository.update(editionId,editionDto);
         edition = await this.editionRepository.findOne(+editionId);
-        return {updatedId: editionId, Artiste: edition};
+        return {updatedId: editionId, Edition: edition};
     }
 
     async removeEdition(editionId: string){

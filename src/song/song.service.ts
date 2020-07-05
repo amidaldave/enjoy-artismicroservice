@@ -17,32 +17,32 @@ export class SongService {
                 {
                     skip: offset,
                     take: limit,
-                    relations:['artisteSongs']
+                    relations:['artisteSongs','albumSong']
                 });
         }
     
         async findOneSong(songId: string){
-            const song = await this.songRepository.findOne(+songId,{relations:['artisteSongs']});
+            const song = await this.songRepository.findOne(+songId,{relations:['artisteSongs','albumSong']});
             if(!song)
                 return null;
             return song;
         }
     
         async updateSong(songId: string, songDto: SongDto){
-            let song = await this.songRepository.findOne(+songId,{relations:['artisteSongs']});
+            let song = await this.songRepository.findOne(+songId,{relations:['artisteSongs','albumSong']});
             if(!song)
                 return null;
             await this.songRepository.update(songId,songDto);
-            song = await this.songRepository.findOne(+songId,{relations:['artisteSongs']});
-            return {updatedId: songId, Artiste: song};
+            song = await this.songRepository.findOne(+songId,{relations:['artisteSongs','albumSong']});
+            return {updatedId: songId, Song: song};
         }
     
         async removeSong(songId: string){
             const song = await this.songRepository.findOne(+songId);
             if(!song)
-                return null;
-            await this.songRepository.delete(+songId);
-            return {deletedId: songId, nbArtiste: await this.songRepository.findAndCount.length};
+                return null;            
+             await this.songRepository.delete(+songId);
+            return {deletedId: songId, nbSongs: await this.songRepository.findAndCount.length};
         }
     
         async createSong(songDto: SongDto){        

@@ -39,10 +39,10 @@ export class BookcategoryController {
     }
 
     @MessagePattern({ cmd: 'updateBookCategory' })
-    async updateBookCategory(bcategoryId: string, bcategoryDto: BookCategoryDto){
-        const bcategory = await this.bcategoryService.findOneBookCategory(bcategoryId);
+    async updateBookCategory(data:any[]){
+        const bcategory = await this.bcategoryService.findOneBookCategory(data[0]);
         if(bcategory)
-            return await this.bcategoryService.updateBookCategory(bcategoryId,bcategoryDto);
+            return await this.bcategoryService.updateBookCategory(data[0],data[1]);
         throw new HttpException('Book Category not modified',HttpStatus.NOT_FOUND);
     }
 

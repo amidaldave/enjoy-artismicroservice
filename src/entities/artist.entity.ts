@@ -6,6 +6,9 @@ import { SongEntity } from './song.entity';
 import { AlbumEntity } from './album.entity';
 import { BandEntity } from './band.entity';
 import { BookEntity } from './book.entity';
+import { MovieEntity } from './movie.entity';
+import { PeintureEntity } from './peinture.entity';
+import { ScultureEntity } from './sculture.entity';
 
 @Entity('enjoy_artiste')
 export class ArtisteEntity{
@@ -50,7 +53,7 @@ export class ArtisteEntity{
     @ApiProperty()
     artistePhone?: string;
 
-    @Column({name:'artiste_biography'})
+    @Column({name:'artiste_biography', type:'text'})
     @ApiProperty()
     artisteBio?: string;
 
@@ -87,5 +90,14 @@ export class ArtisteEntity{
 
     @ManyToMany(type => BookEntity, book => book.artisteBooks)
     books: BookEntity[];
+
+    @ManyToMany(type => MovieEntity, movie => movie.artistMovies)
+    movies: MovieEntity[];
+
+    @ManyToMany(type => PeintureEntity, peinture => peinture.artistePeintures)
+    peintures: PeintureEntity[];
+
+    @ManyToMany(type => ScultureEntity, sculture => sculture.artisteScultures)
+    scultures: PeintureEntity[];
 
 }

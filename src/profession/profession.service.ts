@@ -20,23 +20,23 @@ export class ProfessionService {
     }
 
     async findOneProfession(professionId: string){
-        const profession = await this.professionRepository.findOne(+professionId);
+        const profession = await this.professionRepository.findOne(+professionId,{relations:['artistes']});
         if(!profession)
             return null;
         return profession;
     }
 
     async updateProfession(professionId: string, professionDto: ProfessionDto){
-        let profession = await this.professionRepository.findOne(+professionId);
+        let profession = await this.professionRepository.findOne(+professionId,{relations:['artistes']});
         if(!profession)
             return null;
         await this.professionRepository.update(professionId,professionDto);
-        profession = await this.professionRepository.findOne(+professionId);
+        profession = await this.professionRepository.findOne(+professionId,{relations:['artistes']});
         return {updatedId: professionId, Artiste: profession};
     }
 
     async removeProfession(professionId: string){
-        const profession = await this.professionRepository.findOne(+professionId);
+        const profession = await this.professionRepository.findOne(+professionId,{relations:['artistes']});
         if(!profession)
             return null;
         await this.professionRepository.delete(+professionId);

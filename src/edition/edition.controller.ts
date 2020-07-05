@@ -39,10 +39,10 @@ export class EditionController {
     }
 
     @MessagePattern({ cmd: 'updateEdition' })
-    async updateEdition(editionId: string, editionDto: EditionDto){
-        const edition = await this.editionService.findOneEdition(editionId);
+    async updateEdition(data:any[]){
+        const edition = await this.editionService.findOneEdition(data[0]);
         if(edition)
-            return await this.editionService.updateEdition(editionId,editionDto);
+            return await this.editionService.updateEdition(data[0],data[1]);
         throw new HttpException('Edition not modified',HttpStatus.NOT_FOUND);
     }
 
